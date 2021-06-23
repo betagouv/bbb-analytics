@@ -17,3 +17,41 @@ Application that collect analytics from the BigBlueButton Analytics Callback and
 ## Notes
 - You should use an app like Metabase for analytics purpose of the constituted database
 - Use the conference id as key, check that two serveur don't generate the same id
+
+### Lancer en mode développement
+
+Une fois Postgres lancé, vous pouvez démarrer l'application avec ces commandes :
+
+```
+» npm install # Récupère les dépendances
+» npm run migrate # Applique les migrations
+» npm run dev
+   ...
+   Running on port: 8100
+```
+L'application sera disponible sur `http://localhost:8100` (8100 est le port par défaut, vous pouvez le changer avec la variable d'env `PORT`)
+
+### Lancer avec docker-compose
+- Créer le fichier de configuration : `cp .env.example .env` et le remplir avec les identifiants OVH obtenus plus haut.
+- Lancer le service et initialiser la base de données : `docker-compose up` - disponible sur http://localhost:8100
+- Pour ajouter des données à la base de données (facultatif): `docker-compose run web npm run seed;`
+- Lancer les tests : `docker-compose run web npm test`
+
+### Lancer avec docker sans docker-compose
+
+- Exemple pour développer dans un container :
+	- `docker run --rm --env-file ../.env.secretariat.dev -v $(pwd):/app -w /app -ti -p 8100 node /bin/bash` (avec vos variables d'environnement dans ../.env.secretariat.dev)
+
+### Lancer en mode production
+
+```
+» npm run start
+   ...
+   Running on port: 8100
+```
+
+### Lancer les tests
+
+```
+» npm run test
+```
