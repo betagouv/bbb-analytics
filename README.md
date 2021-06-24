@@ -10,9 +10,10 @@ Application that collect analytics from the BigBlueButton Analytics Callback and
 ## Configuration of bigbluebutton server
 
 - The 'BigBlueButton Analytics Callback'  https://github.com/bigbluebutton/bigbluebutton/blob/develop/record-and-playback/core/scripts/post_events/post_events_analytics_callback.rb is executed after each conference
-- Set the metadata attributes "analytics-callback-url" to the url of this app : `https://bbb-analytics.hosting.com/v1/post_events`
+- Set the metadata attributes "meta_analytics-callback-url" to the url of this app : `https://bbb-analytics.hosting.com/v1/post_events`
 - In `/usr/share/bbb-web/WEB-INF/classes/bigbluebutton.properties` set the `securitySalt` to the same value of `JWT_SECRET_SALT`
-
+- Running post_events scripts requires that you enable keepEvents=true in bbb-web's bigbluebutton.properties configuration. Or you can also use the param           
+ 'meetingKeepEvents=true' in the "meeting creation" call to enable it.
 
 ## Notes
 - You should use an app like Metabase for analytics purpose of the constituted database
