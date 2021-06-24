@@ -25,11 +25,6 @@ services:
       - .env
     environment:
       DATABASE_URL: postgres://bbbanalytics:bbbanalytics@db:5432/bbbanalytics
-      MAIL_PASS: mailpassword
-      MAIL_USER: mailuser
-      MAIL_HOST: maildev
-      MAIL_PORT: 25
-      MAIL_IGNORE_TLS: "true"
       SECURE: "false"
       HOSTNAME: localhost
       SESSION_SECRET: "SecretThatShouldChangedInProduction"
