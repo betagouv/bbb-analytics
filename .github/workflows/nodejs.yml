@@ -29,8 +29,5 @@ jobs:
       env:
         CI: true
         SESSION_SECRET: fakesessionsecret
-        MAIL_PASS: fakepass
-        MAIL_SERVICE: debug
-        MAIL_USER: fakeuser
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/bbbanalytics
         HOSTNAME: localhost
