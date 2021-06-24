@@ -7,14 +7,6 @@ services:
       POSTGRES_PASSWORD: bbbanalytics
     ports:
       - "5432:5432"
-  maildev:
-    image: maildev/maildev:1.1.0
-    environment: 
-      MAILDEV_INCOMING_USER: mailuser
-      MAILDEV_INCOMING_PASS: mailpassword
-    ports:
-      - "1080:80"
-      - "1025:25"
   web:
     build: .
     command:  bash -c "echo 'first npm install can be a bit long'; npm install; npm run migrate; npm run dev"
