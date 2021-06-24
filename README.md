@@ -41,7 +41,7 @@ L'application sera disponible sur `http://localhost:8100` (8100 est le port par 
 ### Lancer avec docker sans docker-compose
 
 - Exemple pour développer dans un container :
-	- `docker run --rm --env-file ../.env.secretariat.dev -v $(pwd):/app -w /app -ti -p 8100 node /bin/bash` (avec vos variables d'environnement dans ../.env.secretariat.dev)
+	- `docker run --rm --env-file ../.env.bbbanalytics.dev -v $(pwd):/app -w /app -ti -p 8100 node /bin/bash` (avec vos variables d'environnement dans ../.env.bbbanalytics.dev)
 
 ### Lancer en mode production
 
