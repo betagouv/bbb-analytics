@@ -4,7 +4,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
-const session = require('express-session');
 const expressSanitizer = require('express-sanitizer');
 const config = require('./config');
 
