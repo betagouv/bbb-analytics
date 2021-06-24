@@ -62,7 +62,6 @@ describe('Meetings', () => {
           stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
           done()
         });
-
     });
   });
 });
