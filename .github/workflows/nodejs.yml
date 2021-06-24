@@ -20,7 +20,7 @@ jobs:
     - name: Setup PostgreSQL
       uses: Harmon758/postgresql-action@v1.0.0
       with:
-        postgresql db: postgres
+        postgresql db: bbbanalytics
         postgresql user: postgres 
         postgresql password: postgres
     - run: npm install
@@ -32,5 +32,5 @@ jobs:
         MAIL_PASS: fakepass
         MAIL_SERVICE: debug
         MAIL_USER: fakeuser
-        DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/bbbanalytics
         HOSTNAME: localhost
