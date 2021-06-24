@@ -11,15 +11,6 @@ before(() => utils.setupTestDatabase());
 beforeEach(() => {
   nock.disableNetConnect();
   nock.enableNetConnect('127.0.0.1');
-  utils.mockUsers();
-  utils.mockStartups();
-  utils.mockSlackGeneral();
-  utils.mockSlackSecretariat();
-  utils.mockOvhTime();
-  utils.mockOvhUserEmailInfos();
-  utils.mockOvhAllEmailInfos();
-  utils.mockOvhRedirectionWithQueries();
-  utils.mockOvhRedirections();
 });
 
 afterEach(() => {

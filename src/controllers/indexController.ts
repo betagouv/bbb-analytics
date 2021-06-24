@@ -1,43 +1,49 @@
 const db = require('../db');
 
-type MetadataInterface = {
-  attendees: String[],
-  meeting_name: String,
-  meeting_id: String,
-  internal_meeting_id: String,
-  create_time: String,
-  create_date: String,
-  voice_bridge: String,
-  dial_number: String,
-  attendee_pw: String,
-  moderator_pw: String,
-  running: String,
-  duration: Number,
-  has_user_joined: Boolean,
-  recording: Boolean,
-  has_been_forcibly_ended: Boolean,
-  start_time: String,
-  end_time: String,
-  participant_count: String,
-  listener_count: String,
-  voice_participant_count: String,
-  video_count: String,
-  max_users: String,
-  moderator_count: String
+type AttendeeInterface = {
+    ext_user_id: String,
+    name: String,
+    moderator: Boolean,
+    joins: Date[],
+    leaves: Date[],
+    duration: Number,
+    recent_talking_time: String,
+    engagement: {
+      chats: Number,
+      talks: Number,
+      raisehand: Number,
+      emojis: Number,
+      poll_votes: Number,
+      talk_time: Number
+    },
 }
 
 type PayloadInterface = { 
   version: String,
   meeting_id: String,
   internal_meeting_id: String,
-  data: MetadataInterface,
+  data: {
+    duration: Number,
+    start: Date,
+    finish: Date,
+    attendees: AttendeeInterface[],
+    files: String[],
+    metadata: {
+      meeting_name: String
+    }
+  },
 }
 
-type DbData = {
-  version: String,
+type DbDataInterface = {
   meeting_id: String,
   internal_meeting_id: String,
-  MetadataInterface
+  meeting_name: String,
+  start: Date,
+  finish: Date,
+  duration: Number,
+  attendee_count: Number,
+  moderator_count: Number,
+  raw_data: JSON
 }
 
 module.exports.getIndex = function (req, res) {
@@ -45,17 +51,25 @@ module.exports.getIndex = function (req, res) {
 };
 
 module.exports.postEvents = async function (req, res) {
-    const data : PayloadInterface = req.body
-    try {
-      await db('stats').insert({
-        ...data,
-        ...data.data
-      })
-    }
-    catch (err) {
-      throw new Error(`${err}`);
-    }
-  
-    return res.redirect('/');
-  };
-  
+  const requestData : PayloadInterface = req.body
+  const dbData : DbDataInterface = {
+    meeting_id: requestData.meeting_id,
+    internal_meeting_id: requestData.internal_meeting_id,
+    meeting_name: requestData.data.metadata.meeting_name,
+    start: requestData.data.start,
+    finish: requestData.data.finish,
+    duration: requestData.data.duration,
+    attendee_count: requestData.data.attendees.length,
+    moderator_count: requestData.data.attendees.filter(attendee => attendee.moderator).length,
+    raw_data: req.body
+  }
+  try {
+    await db('meetings').insert({
+      ...dbData,
+    })
+  }
+  catch (err) {
+    throw new Error(`${err}`);
+  }
+  return res.redirect('/');
+};

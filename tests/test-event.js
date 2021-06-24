@@ -2,61 +2,67 @@ const chai = require('chai');
 const app = require('../src/index.ts');
 const knex = require('../src/db');
 
-describe('Account', () => {
-  afterEach((done) => {
-    knex('marrainage').truncate()
-      .then(() => done());
-  });
+const apiResponse = {
+  "version": "1.0",
+  "meeting_id": "meeting-persistent-3--c308049",
+  "internal_meeting_id": "3e677e88dl769",
+  "data": {
+    "metadata": {
+      "analytics_callback_url": "https://webhook.site/f519038c-b956-4fa3-9b5c-148e8df09b47",
+      "is_breakout": "false",
+      "meeting_name": "Arawa3"
+    },
+    "duration": 20,
+    "start": "2021-06-23 18:52:12 +0200",
+    "finish": "2021-06-23 18:52:32 +0200",
+    "attendees": [
+      {
+        "ext_user_id": "w_hll5o9o",
+        "name": "Lucas Pla",
+        "moderator": true,
+        "joins": [
+          "2021-06-23 18:52:21 +0200"
+        ],
+        "leaves": [
+          "2021-06-23 18:52:32 +0200"
+        ],
+        "duration": 11,
+        "recent_talking_time": "",
+        "engagement": {
+          "chats": 0,
+          "talks": 0,
+          "raisehand": 0,
+          "emojis": 0,
+          "poll_votes": 0,
+          "talk_time": 0
+        }
+      }
+    ],
+    "files": [
+      "default.pdf"
+    ],
+    "polls": [],
+}}
 
-  describe('GET /account unauthenticated', () => {
-    it('should redirect to login', (done) => {
-      chai.request(app)
-        .get('/account')
-        .redirects(0)
-        .end((err, res) => {
-          res.should.have.status(302);
-          res.headers.location.should.include('/login');
-          res.headers.location.should.equal('/login?next=/account');
-          done();
-        });
-    });
-  });
+describe('Events', () => {
 
-  describe('POST /v1/post_events authenticated', () => {
-    // first render of template 'account' can be slow and exceed timeout this test may fail if timeout < 2000
+  describe('POST /v1/post_events unauthenticated', () => {
 
-    it('should return a valid page', (done) => {
-      chai.request(app)
+    it('should create a new entry in meetings', (done) => {
+      const res = chai.request(app)
         .post('/v1/post_events')
-        .send({
-            attendees: [],
-            meeting_name: 'Demo Meeting',
-            meeting_id:'Demo Meeting' ,
-            internal_meeting_id: '183f0bf3a0982a127bdb8161e0c44eb696b3e75c-1531240585189',
-            create_time: 1531240585189,
-            create_date: 'Tue Jul 10 16:36:25 UTC 2018',
-            voice_bridge: 70066,
-            dial_number: '613-555-1234',
-            attendee_pw: 'ap',
-            moderator_pw: 'mp',
-            running: false,
-            duration: 0,
-            has_user_joined: true,
-            recording: false,
-            has_been_forcibly_ended: false,
-            start_time: 1531240585239,
-            end_time: 0,
-            participant_count: 2,
-            listener_count: 1,
-            voice_participant_count: 1,
-            video_count: 1,
-            max_users: 20,
-            moderator_count: 1
-        })
-        .end((err, res) => {
+        .set('content-type', 'application/json')
+        .set('user-agent', 'BigBlueButton Analytics Callback')
+        .send(apiResponse)
+        .end(async (err, res) => {
           res.should.have.status(200);
-          done();
+          const stats = await knex('meetings').orderBy('created_at', 'desc').first()
+          stats.duration.should.be.equal(apiResponse.data.duration)
+          stats.moderator_count.should.be.equal(1)
+          stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
+          done()
         });
+
     });
   });
 });

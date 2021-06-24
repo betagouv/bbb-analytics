@@ -4,7 +4,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
-const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const expressSanitizer = require('express-sanitizer');
 const config = require('./config');
@@ -14,8 +13,6 @@ const indexController = require('./controllers/indexController');
 
 const app = express();
 
-// app.use(cookieParser(config.secret));
-// app.use(session({ cookie: { maxAge: 300000, sameSite: 'lax' } })); // Only used for Flash not safe for others purposes
 app.use(expressSanitizer());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -36,23 +33,21 @@ app.use(
   expressJWT({
     secret: config.secret,
     algorithms: ['HS256'],
-    getToken: (req) => req.cookies.token || null,
+    // getToken: (req) => req.cookies.token || null,
   }).unless({
     path: [
       '/',
+      '/v1/post_events'
     ],
   }),
 );
 
+app.use(express.json());
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     // redirect to login and keep the requested url in the '?next=' query param
     if (req.method === 'GET') {
-      req.flash(
-        'error',
-        "Vous n'êtes pas identifié pour accéder à cette page (ou votre accès n'est plus valide)",
-      );
       return res.redirect(`/`);
     }
   }
