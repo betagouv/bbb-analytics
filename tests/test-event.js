@@ -44,7 +44,7 @@ const apiResponse = {
     "polls": [],
 }}
 
-describe('Events', () => {
+describe('Meetings', () => {
 
   describe('POST /v1/post_events unauthenticated', () => {
 
