@@ -60,7 +60,7 @@ describe('Meetings', () => {
           stats.duration.should.be.equal(apiResponse.data.duration)
           stats.moderator_count.should.be.equal(1)
           stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
-          stats.tags.should.be.equal('dinum,toto')
+          stats.tags.should.be.equal('dinum')
           done()
         });
     });
