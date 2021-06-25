@@ -2,7 +2,8 @@
 exports.up = function (knex) {
     return knex.schema
       .alterTable('meetings', (table) => {
-        table.string('tags').nullable();
+        table.specificType('tags', 'text[]').nullable();
+
     });
 };
 
