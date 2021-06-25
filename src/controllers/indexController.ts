@@ -43,11 +43,12 @@ type DbDataInterface = {
   duration: Number,
   attendee_count: Number,
   moderator_count: Number,
-  raw_data: JSON
+  raw_data: JSON,
+  tags?: String,
 }
 
 type OptionalParamsInterface = {
-  cluster_name?: String
+  tags?: String
 }
 
 module.exports.getIndex = function (req, res) {
@@ -66,12 +67,12 @@ module.exports.postEvents = async function (req, res) {
     duration: requestData.data.duration,
     attendee_count: requestData.data.attendees.length,
     moderator_count: requestData.data.attendees.filter(attendee => attendee.moderator).length,
-    raw_data: req.body
+    raw_data: req.body,
+    tags: queryData.tags,
   }
   try {
     await db('meetings').insert({
       ...dbData,
-      cluster_name: queryData.cluster_name
     })
   }
   catch (err) {

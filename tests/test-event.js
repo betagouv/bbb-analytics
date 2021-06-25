@@ -50,7 +50,7 @@ describe('Meetings', () => {
 
     it('should create a new entry in meetings', (done) => {
       const res = chai.request(app)
-        .post('/v1/post_events?cluster_name=clustername')
+        .post('/v1/post_events?tags=dinum,toto')
         .set('content-type', 'application/json')
         .set('user-agent', 'BigBlueButton Analytics Callback')
         .send(apiResponse)
@@ -60,7 +60,7 @@ describe('Meetings', () => {
           stats.duration.should.be.equal(apiResponse.data.duration)
           stats.moderator_count.should.be.equal(1)
           stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
-          stats.cluster_name.should.be.equal('clustername')
+          stats.tags.should.be.equal('dinum,toto')
           done()
         });
     });
