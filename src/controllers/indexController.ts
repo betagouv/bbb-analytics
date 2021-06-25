@@ -76,7 +76,7 @@ module.exports.postEvents = async function (req, res) {
     })
   }
   catch (err) {
-    throw new Error(`${err}`);
+    return res.status(500).send(`${err}`);
   }
   return res.redirect('/');
 };

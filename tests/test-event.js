@@ -44,25 +44,27 @@ const apiResponse = {
     "polls": [],
 }}
 
-describe('Meetings', () => {
+describe('Meetings', async () => {
 
-  describe('POST /v1/post_events unauthenticated', () => {
+  describe('POST /v1/post_events unauthenticated', async () => {
 
-    it('should create a new entry in meetings', (done) => {
-      const res = chai.request(app)
-        .post('/v1/post_events?tags=dinum,toto')
-        .set('content-type', 'application/json')
-        .set('user-agent', 'BigBlueButton Analytics Callback')
-        .send(apiResponse)
-        .end(async (err, res) => {
+    it('should create a new entry in meetings', async () => {
+      let res
+      try {
+        res = await chai.request(app)
+          .post('/v1/post_events?tags=dinum')
+          .set('content-type', 'application/json')
+          .set('user-agent', 'BigBlueButton Analytics Callback')
+          .send(apiResponse)
+        } catch (e) {
+        console.log(e)
+      }
           res.should.have.status(200);
           const stats = await knex('meetings').orderBy('created_at', 'desc').first()
           stats.duration.should.be.equal(apiResponse.data.duration)
           stats.moderator_count.should.be.equal(1)
           stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
           stats.tags.should.be.equal('dinum')
-          done()
-        });
-    });
+      });
   });
 });
