@@ -5,7 +5,7 @@ const knex = require('../src/db');
 const apiResponse = {
   "version": "1.0",
   "meeting_id": "meeting-persistent-3--c308049",
-  "internal_meeting_id": "3e677e88dl769",
+  "internal_meeting_id": "3e677e88dl7698",
   "data": {
     "metadata": {
       "analytics_callback_url": "https://webhook.site/f519038c-b956-4fa3-9b5c-148e8df09b47",
@@ -50,7 +50,7 @@ describe('Meetings', () => {
 
     it('should create a new entry in meetings', (done) => {
       const res = chai.request(app)
-        .post('/v1/post_events')
+        .post('/v1/post_events?cluster_name=clustername')
         .set('content-type', 'application/json')
         .set('user-agent', 'BigBlueButton Analytics Callback')
         .send(apiResponse)
@@ -60,6 +60,7 @@ describe('Meetings', () => {
           stats.duration.should.be.equal(apiResponse.data.duration)
           stats.moderator_count.should.be.equal(1)
           stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
+          stats.cluster_name.should.be.equal('clustername')
           done()
         });
     });

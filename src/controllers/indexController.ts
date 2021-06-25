@@ -46,12 +46,17 @@ type DbDataInterface = {
   raw_data: JSON
 }
 
+type OptionalParamsInterface = {
+  cluster_name?: String
+}
+
 module.exports.getIndex = function (req, res) {
   return res.json({}, 200)
 };
 
 module.exports.postEvents = async function (req, res) {
   const requestData : PayloadInterface = req.body
+  const queryData : OptionalParamsInterface = req.query
   const dbData : DbDataInterface = {
     meeting_id: requestData.meeting_id,
     internal_meeting_id: requestData.internal_meeting_id,
@@ -66,6 +71,7 @@ module.exports.postEvents = async function (req, res) {
   try {
     await db('meetings').insert({
       ...dbData,
+      cluster_name: queryData.cluster_name
     })
   }
   catch (err) {
