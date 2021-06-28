@@ -5,7 +5,7 @@ const knex = require('../src/db');
 const apiResponse = {
   "version": "1.0",
   "meeting_id": "meeting-persistent-3--c308049",
-  "internal_meeting_id": "3e677e88dl769",
+  "internal_meeting_id": "3e677e88dl7698",
   "data": {
     "metadata": {
       "analytics_callback_url": "https://webhook.site/f519038c-b956-4fa3-9b5c-148e8df09b47",
@@ -44,24 +44,27 @@ const apiResponse = {
     "polls": [],
 }}
 
-describe('Meetings', () => {
+describe('Meetings', async () => {
 
-  describe('POST /v1/post_events unauthenticated', () => {
+  describe('POST /v1/post_events unauthenticated', async () => {
 
-    it('should create a new entry in meetings', (done) => {
-      const res = chai.request(app)
-        .post('/v1/post_events')
-        .set('content-type', 'application/json')
-        .set('user-agent', 'BigBlueButton Analytics Callback')
-        .send(apiResponse)
-        .end(async (err, res) => {
+    it('should create a new entry in meetings', async () => {
+      let res
+      try {
+        res = await chai.request(app)
+          .post('/v1/post_events?tag=dinum')
+          .set('content-type', 'application/json')
+          .set('user-agent', 'BigBlueButton Analytics Callback')
+          .send(apiResponse)
+        } catch (e) {
+        console.log(e)
+      }
           res.should.have.status(200);
           const stats = await knex('meetings').orderBy('created_at', 'desc').first()
           stats.duration.should.be.equal(apiResponse.data.duration)
           stats.moderator_count.should.be.equal(1)
           stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
-          done()
-        });
-    });
+          stats.tag.should.be.equal('dinum')
+      });
   });
 });

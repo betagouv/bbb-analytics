@@ -43,7 +43,12 @@ type DbDataInterface = {
   duration: Number,
   attendee_count: Number,
   moderator_count: Number,
-  raw_data: JSON
+  raw_data: JSON,
+  tag?: String,
+}
+
+type OptionalParamsInterface = {
+  tag?: String
 }
 
 module.exports.getIndex = function (req, res) {
@@ -52,6 +57,7 @@ module.exports.getIndex = function (req, res) {
 
 module.exports.postEvents = async function (req, res) {
   const requestData : PayloadInterface = req.body
+  const queryData : OptionalParamsInterface = req.query
   const dbData : DbDataInterface = {
     meeting_id: requestData.meeting_id,
     internal_meeting_id: requestData.internal_meeting_id,
@@ -61,7 +67,8 @@ module.exports.postEvents = async function (req, res) {
     duration: requestData.data.duration,
     attendee_count: requestData.data.attendees.length,
     moderator_count: requestData.data.attendees.filter(attendee => attendee.moderator).length,
-    raw_data: req.body
+    raw_data: req.body,
+    tag: queryData.tag,
   }
   try {
     await db('meetings').insert({
@@ -69,7 +76,7 @@ module.exports.postEvents = async function (req, res) {
     })
   }
   catch (err) {
-    throw new Error(`${err}`);
+    return res.status(500).send(`${err}`);
   }
   return res.redirect('/');
 };
