@@ -2,7 +2,7 @@
 exports.up = function (knex) {
     return knex.schema
       .alterTable('meetings', (table) => {
-        table.specificType('tags', 'text[]').nullable();
+        table.text('tag').nullable();
 
     });
 };
@@ -10,7 +10,7 @@ exports.up = function (knex) {
 exports.down = async function (knex) {
     await knex.schema
     .alterTable('meetings', (table) => {
-        table.dropColumn('tags');
+        table.dropColumn('tag');
     });
 };
   

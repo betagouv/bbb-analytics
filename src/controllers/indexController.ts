@@ -44,11 +44,11 @@ type DbDataInterface = {
   attendee_count: Number,
   moderator_count: Number,
   raw_data: JSON,
-  tags?: String[],
+  tag?: String,
 }
 
 type OptionalParamsInterface = {
-  tags?: String
+  tag?: String
 }
 
 module.exports.getIndex = function (req, res) {
@@ -68,7 +68,7 @@ module.exports.postEvents = async function (req, res) {
     attendee_count: requestData.data.attendees.length,
     moderator_count: requestData.data.attendees.filter(attendee => attendee.moderator).length,
     raw_data: req.body,
-    tags: (queryData.tags || '').split(','),
+    tag: queryData.tag,
   }
   try {
     await db('meetings').insert({

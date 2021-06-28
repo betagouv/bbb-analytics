@@ -52,7 +52,7 @@ describe('Meetings', async () => {
       let res
       try {
         res = await chai.request(app)
-          .post('/v1/post_events?tags=dinum,test')
+          .post('/v1/post_events?tag=dinum')
           .set('content-type', 'application/json')
           .set('user-agent', 'BigBlueButton Analytics Callback')
           .send(apiResponse)
@@ -64,9 +64,7 @@ describe('Meetings', async () => {
           stats.duration.should.be.equal(apiResponse.data.duration)
           stats.moderator_count.should.be.equal(1)
           stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
-          stats.tags[0].should.be.equal('dinum')
-          stats.tags[1].should.be.equal('test')
-
+          stats.tag.should.be.equal('dinum')
       });
   });
 });
