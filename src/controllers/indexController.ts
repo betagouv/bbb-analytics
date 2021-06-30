@@ -45,6 +45,7 @@ type DbDataInterface = {
   moderator_count: Number,
   raw_data: JSON,
   tag?: String,
+  weekday: Number
 }
 
 type OptionalParamsInterface = {
@@ -69,6 +70,7 @@ module.exports.postEvents = async function (req, res) {
     moderator_count: requestData.data.attendees.filter(attendee => attendee.moderator).length,
     raw_data: req.body,
     tag: queryData.tag,
+    weekday: (new Date(requestData.data.start)).getDay(),
   }
   try {
     await db('meetings').insert({
