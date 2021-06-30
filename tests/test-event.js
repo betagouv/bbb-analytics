@@ -13,8 +13,8 @@ const apiResponse = {
       "meeting_name": "Arawa3"
     },
     "duration": 20,
-    "start": "2021-06-23 18:52:12 +0200",
-    "finish": "2021-06-23 18:52:32 +0200",
+    "start": "2021-06-27 18:52:12 +0200",
+    "finish": "2021-06-27 18:52:32 +0200",
     "attendees": [
       {
         "ext_user_id": "w_hll5o9o",
@@ -65,6 +65,7 @@ describe('Meetings', async () => {
           stats.moderator_count.should.be.equal(1)
           stats.internal_meeting_id.should.be.equal(apiResponse.internal_meeting_id)
           stats.tag.should.be.equal('dinum')
+          stats.weekday.should.be.equal(0)
       });
   });
 });
