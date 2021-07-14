@@ -5,7 +5,7 @@ Application that collect analytics from the BigBlueButton Analytics Callback and
 ## Configuration of the app
 
 - `JWT_SECRET_SALT=toSetup` (Not yet implemented)
-- `DATABASE_URL=postgres://...` (Not yet implemented)
+- `DATABASE_URL=postgres://...`
 
 ## Configuration of bigbluebutton server
 
