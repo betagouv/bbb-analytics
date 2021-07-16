@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   expressJWT({
     secret: config.secret,
-    algorithms: ['HS256'],
+    algorithms: ['HS512'],
   }).unless({
     path: [
       '/'
