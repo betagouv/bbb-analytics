@@ -53,7 +53,9 @@ describe('Meetings', async () => {
     it('should create a new entry in meetings', async () => {
       let res
       try {
-        const token = jwt.sign({}, config.secret, { expiresIn: 24 * 3600, algorithm: ['HS512'] })
+        const token = jwt.sign({ 
+          exp: Math.floor(Date.now() / 1000) + (60 * 60),
+        }, config.secret, { algorithm: 'HS512' })
         res = await chai.request(app)
           .post('/v1/post_events?tag=dinum')
           .set('content-type', 'application/json')
