@@ -30,6 +30,7 @@ app.use(express.json());
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
+    console.error(err)
     // redirect to login and keep the requested url in the '?next=' query param
     if (req.method === 'GET') {
       return res.redirect(`/`);
