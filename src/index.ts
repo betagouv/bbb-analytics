@@ -17,8 +17,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 console.log(config.secret)
 app.use(
   expressJWT({
-    secret: Buffer.from(config.secret, 'base64'),
+    secret: config.secret,
     algorithms: ['HS512'],
+    typ: "JWT",
     getToken: function fromHeaderOrQuerystring (req) {
       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         console.log('LCS HEADER', req.headers.authorization.split(' ')[1])
