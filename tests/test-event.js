@@ -55,7 +55,9 @@ describe('Meetings', async () => {
       try {
         const token = jwt.sign({ 
           exp: Math.floor(Date.now() / 1000) + (60 * 60),
-        }, config.secret, { algorithm: 'HS512' })
+      }, config.secret, { algorithm: 'HS512', header: {
+        typ: 'JWT'
+      }})
         res = await chai.request(app)
           .post('/v1/post_events?tag=dinum')
           .set('content-type', 'application/json')
