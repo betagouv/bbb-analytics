@@ -19,6 +19,16 @@ app.use(
   expressJWT({
     secret: config.secret,
     algorithms: ['HS512'],
+    // getToken: function fromHeaderOrQuerystring (req) {
+    //   if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    //     console.log('LCS HEADER', req.headers.authorization.split(' ')[1])
+    //       return req.headers.authorization.split(' ')[1];
+    //   } else if (req.query && req.query.token) {
+    //     console.log('LCS HEADER', req.query.token)
+    //     return req.query.token;
+    //   }
+    //   return null;
+    // }
   }).unless({
     path: [
       '/'
@@ -41,6 +51,5 @@ app.use((err, req, res, next) => {
 
 app.get('/', indexController.getIndex);
 app.post('/v1/post_events', indexController.postEvents);
-
 
 module.exports = app.listen(config.port, () => console.log(`Running on port: http://${config.host}:${config.port}`));
