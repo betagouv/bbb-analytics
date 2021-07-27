@@ -45,7 +45,7 @@ app.use((err, req, res, next) => {
     console.log(req.headers.authorization)
   }
   catch(e) {
-
+    console.log('erreur')
   }
   if (err.name === 'UnauthorizedError') {
     console.error(err)
