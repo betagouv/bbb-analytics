@@ -14,22 +14,22 @@ const app = express();
 
 app.use(expressSanitizer());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use((err, req, res, next) => {
-  try {
-    console.log(req.headers.authorization)
-  }
-  catch(e) {
-    console.log('erreur')
-  }
-  if (err.name === 'UnauthorizedError') {
-    console.error(err)
-    // redirect to login and keep the requested url in the '?next=' query param
-    if (req.method === 'GET') {
-      return res.redirect(`/`);
-    }
-  }
-  return next(err);
-});
+// app.use((err, req, res, next) => {
+//   try {
+//     console.log(req.headers.authorization)
+//   }
+//   catch(e) {
+//     console.log('erreur')
+//   }
+//   if (err.name === 'UnauthorizedError') {
+//     console.error(err)
+//     // redirect to login and keep the requested url in the '?next=' query param
+//     if (req.method === 'GET') {
+//       return res.redirect(`/`);
+//     }
+//   }
+//   return next(err);
+// });
 
 app.use(
   expressJWT({
@@ -50,7 +50,7 @@ app.use(
   }).unless({
     path: [
       '/',
-      '/v1/post_events'
+      //'/v1/post_events'
     ],
   }),
 );
