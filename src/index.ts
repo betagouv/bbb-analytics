@@ -32,7 +32,8 @@ app.use(
     }
   }).unless({
     path: [
-      '/'
+      '/',
+      '/v1/post_events'
     ],
   }),
 );
@@ -40,6 +41,12 @@ app.use(
 app.use(express.json());
 
 app.use((err, req, res, next) => {
+  try {
+    console.log(req.headers.authorization)
+  }
+  catch(e) {
+
+  }
   if (err.name === 'UnauthorizedError') {
     console.error(err)
     // redirect to login and keep the requested url in the '?next=' query param
