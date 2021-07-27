@@ -14,7 +14,23 @@ const app = express();
 
 app.use(expressSanitizer());
 app.use(bodyParser.urlencoded({ extended: false }));
-console.log(config.secret)
+app.use((err, req, res, next) => {
+  try {
+    console.log(req.headers.authorization)
+  }
+  catch(e) {
+    console.log('erreur')
+  }
+  if (err.name === 'UnauthorizedError') {
+    console.error(err)
+    // redirect to login and keep the requested url in the '?next=' query param
+    if (req.method === 'GET') {
+      return res.redirect(`/`);
+    }
+  }
+  return next(err);
+});
+
 app.use(
   expressJWT({
     secret: config.secret,
@@ -39,23 +55,6 @@ app.use(
 );
 
 app.use(express.json());
-
-app.use((err, req, res, next) => {
-  try {
-    console.log(req.headers.authorization)
-  }
-  catch(e) {
-    console.log('erreur')
-  }
-  if (err.name === 'UnauthorizedError') {
-    console.error(err)
-    // redirect to login and keep the requested url in the '?next=' query param
-    if (req.method === 'GET') {
-      return res.redirect(`/`);
-    }
-  }
-  return next(err);
-});
 
 app.get('/', indexController.getIndex);
 app.post('/v1/post_events', indexController.postEvents);
