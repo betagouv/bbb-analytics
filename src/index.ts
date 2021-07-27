@@ -14,22 +14,22 @@ const app = express();
 
 app.use(expressSanitizer());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use((err, req, res, next) => {
-  try {
-    console.log(req.headers.authorization)
-  }
-  catch(e) {
-    console.log('erreur')
-  }
-  if (err.name === 'UnauthorizedError') {
-    console.error(err)
-    // redirect to login and keep the requested url in the '?next=' query param
-    if (req.method === 'GET') {
-      return res.redirect(`/`);
-    }
-  }
-  return next(err);
-});
+// app.use((err, req, res, next) => {
+//   try {
+//     console.log(req.headers.authorization)
+//   }
+//   catch(e) {
+//     console.log('erreur')
+//   }
+//   if (err.name === 'UnauthorizedError') {
+//     console.error(err)
+//     // redirect to login and keep the requested url in the '?next=' query param
+//     if (req.method === 'GET') {
+//       return res.redirect(`/`);
+//     }
+//   }
+//   return next(err);
+// });
 
 app.use(
   expressJWT({
@@ -37,6 +37,7 @@ app.use(
     algorithms: ['HS512'],
     typ: "JWT",
     getToken: function fromHeaderOrQuerystring (req) {
+      console.log(req.headers.authorization)
       if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         console.log('LCS HEADER', req.headers.authorization.split(' ')[1])
           return req.headers.authorization.split(' ')[1];
