@@ -52,10 +52,6 @@ type OptionalParamsInterface = {
   tag?: String
 }
 
-module.exports.getIndex = function (req, res) {
-  return res.json({}, 200)
-};
-
 module.exports.postEvents = async function (req, res) {
   const requestData : PayloadInterface = req.body
   const queryData : OptionalParamsInterface = req.query
