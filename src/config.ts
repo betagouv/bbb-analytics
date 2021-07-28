@@ -1,9 +1,5 @@
-const isSecure = (process.env.SECURE || 'true') === 'true';
-
 module.exports = {
-  secret: process.env.SESSION_SECRET,
-  secure: isSecure,
-  protocol: isSecure ? 'https' : 'http',
+  secret: process.env.JWT_SECURITY_SALT,
   host: process.env.HOSTNAME,
   port: process.env.PORT || 8100,
 };

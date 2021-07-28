@@ -19,7 +19,7 @@ services:
       DATABASE_URL: postgres://bbbanalytics:bbbanalytics@db:5432/bbbanalytics
       SECURE: "false"
       HOSTNAME: localhost
-      SESSION_SECRET: "SecretThatShouldChangedInProduction"
+      JWT_SECURITY_SALT: "SecretThatShouldChangedInProduction"
     ports:
       - "8100:8100"
       - "9229:9229"
