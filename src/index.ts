@@ -19,10 +19,6 @@ app.use(
     secret: config.secret,
     algorithms: ['HS512'],
     typ: "JWT",
-  }).unless({
-    path: [
-      '/'
-   ],
   }),
 );
 
