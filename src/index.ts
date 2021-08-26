@@ -14,13 +14,13 @@ const app = express();
 app.use(expressSanitizer());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(
-  expressJWT({
-    secret: config.secret,
-    algorithms: ['HS512'],
-    typ: "JWT",
-  }),
-);
+// app.use(
+//   expressJWT({
+//     secret: config.secret,
+//     algorithms: ['HS512'],
+//     typ: "JWT",
+//   }),
+// );
 
 app.use(express.json());
 app.post('/v1/post_events', indexController.postEvents);
