@@ -34,7 +34,6 @@ Once Postgres is launched, you can start the application with these commands :
 The application will be available on `http: // localhost: 8100` (8100 is the default port, you can change it with the env variable` PORT`)
 
 ### Run with docker-compose
-- Create the configuration file : `cp .env.example .env` and fill it in with the env var specified above.
 - Start the service and initialize the database : `docker-compose up` - disponible sur http://localhost:8100
 - To add data to the database (optional): `docker-compose run web npm run seed;`
 - Run the tests : `docker-compose run web npm test`
