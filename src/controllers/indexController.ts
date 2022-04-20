@@ -76,7 +76,7 @@ module.exports.postEvents = async function (req, res) {
   catch (err) {
     return res.status(500).send(`${err}`);
   }
-  return res.json({
+  return res.status(200).json({
     status: 'ok'
-  }, 200)  
+  });
 };

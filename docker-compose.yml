@@ -15,6 +15,7 @@ services:
       DATABASE_URL: postgres://bbbanalytics:bbbanalytics@db:5432/bbbanalytics
       HOSTNAME: localhost
       JWT_SECURITY_SALT: SecretThatShouldChangedInProduction
+      JWT_TAGS_AND_SALTS: dinum:SecretThatShouldChangedInProduction
     ports:
       - "8100:8100"
       - "9229:9229"
