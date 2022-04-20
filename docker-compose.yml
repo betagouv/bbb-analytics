@@ -9,17 +9,12 @@ services:
       - "5432:5432"
   web:
     build: .
-    command:  bash -c "echo 'first npm install can be a bit long'; npm install; npm run migrate; npm run dev"
     depends_on:
       - db
-      - maildev
-    env_file: 
-      - .env
     environment:
       DATABASE_URL: postgres://bbbanalytics:bbbanalytics@db:5432/bbbanalytics
-      SECURE: "false"
       HOSTNAME: localhost
-      JWT_SECURITY_SALT: "SecretThatShouldChangedInProduction"
+      JWT_SECURITY_SALT: SecretThatShouldChangedInProduction
     ports:
       - "8100:8100"
       - "9229:9229"
